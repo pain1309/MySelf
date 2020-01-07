@@ -8,6 +8,7 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { MessResolver } from './_resolvers/mess.resolver';
+import { GroupComponent } from './group/group.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -22,7 +23,8 @@ export const appRoutes: Routes = [
                 resolve: {user: MemberDetailResolver} },
             { path: 'messages/:id', component: MessagesComponent,
                 resolve: {user: MessResolver} },
-            { path: 'lists', component: ListsComponent }
+            { path: 'lists', component: ListsComponent },
+            { path: 'groups', component: GroupComponent }
         ]
     },
     { path: '**', redirectTo: '', pathMatch: 'full' }

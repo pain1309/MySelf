@@ -37,7 +37,9 @@ namespace DatingApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(
+                x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")), 
+                ServiceLifetime.Singleton);
             services.AddControllers().AddNewtonsoftJson(opt => 
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -59,6 +61,7 @@ namespace DatingApp.API
                         ValidateAudience = false
                     };
                 });
+            services.AddSingleton<NewsStore>();
             services.AddSignalR();
         }
 
@@ -110,6 +113,7 @@ namespace DatingApp.API
 
             app.UseSignalR(route =>
             {
+                route.MapHub<NewsHub>("/looney");
                 route.MapHub<ChatHub>("/chathub");
             });
             app.UseEndpoints(endpoints =>

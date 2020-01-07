@@ -20,38 +20,40 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { MessResolver } from './_resolvers/mess.resolver';
+import { GroupComponent } from './group/group.component';
 
 export function tokenGetter() {
     return localStorage.getItem('token');
 }
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        NavComponent,
-        HomeComponent,
-        RegisterComponent,
-        MemberListComponent,
-        ListsComponent,
-        MessagesComponent,
-        MemberCardComponent,
-        MemberDetailComponent
-    ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        FormsModule,
-        BsDropdownModule.forRoot(),
-        TabsModule.forRoot(),
-        RouterModule.forRoot(appRoutes),
-        JwtModule.forRoot({
-            config: {
-                tokenGetter: tokenGetter,
-                whitelistedDomains: ['localhost:5000'],
-                blacklistedRoutes: ['localhost:5000/api/auth']
-            }
-        })
+   declarations: [
+      AppComponent,
+      NavComponent,
+      HomeComponent,
+      RegisterComponent,
+      MemberListComponent,
+      ListsComponent,
+      MessagesComponent,
+      MemberCardComponent,
+      MemberDetailComponent,
+      GroupComponent
+   ],
+   imports: [
+      BrowserModule,
+      HttpClientModule,
+      ReactiveFormsModule,
+      FormsModule,
+      BsDropdownModule.forRoot(),
+      TabsModule.forRoot(),
+      RouterModule.forRoot(appRoutes),
+      JwtModule.forRoot({
+        config: {
+            tokenGetter: tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/api/auth']
+        }
+    })
     ],
     providers: [AuthService, ErrorInterceptorProvider, MemberDetailResolver, MemberListResolver, MessResolver],
     bootstrap: [AppComponent]
