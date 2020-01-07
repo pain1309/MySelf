@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -19,6 +19,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { MessResolver } from './_resolvers/mess.resolver';
 
 export function tokenGetter() {
     return localStorage.getItem('token');
@@ -39,6 +40,7 @@ export function tokenGetter() {
     imports: [
         BrowserModule,
         HttpClientModule,
+        ReactiveFormsModule,
         FormsModule,
         BsDropdownModule.forRoot(),
         TabsModule.forRoot(),
@@ -51,7 +53,7 @@ export function tokenGetter() {
             }
         })
     ],
-    providers: [AuthService, ErrorInterceptorProvider, MemberDetailResolver, MemberListResolver],
+    providers: [AuthService, ErrorInterceptorProvider, MemberDetailResolver, MemberListResolver, MessResolver],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

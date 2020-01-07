@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/_models/user';
 
@@ -8,7 +9,8 @@ import { User } from 'src/app/_models/user';
 })
 export class MemberCardComponent implements OnInit {
     @Input() user: User;
-    constructor() {}
+    constructor(private route: ActivatedRoute) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
 }

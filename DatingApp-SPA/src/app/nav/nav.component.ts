@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
+import { MessageService } from '../_services/Message.service';
 
 @Component({
     selector: 'app-nav',
@@ -13,7 +14,8 @@ export class NavComponent implements OnInit {
     constructor(
         public authService: AuthService,
         private alertify: AlertifyService,
-        private router: Router
+        private router: Router,
+        private notification: MessageService
     ) {}
 
     ngOnInit() {}
@@ -28,6 +30,7 @@ export class NavComponent implements OnInit {
             },
             () => {
                 this.router.navigate(['/members']);
+                this.notification.connect(localStorage.getItem('token'));
             }
         );
     }

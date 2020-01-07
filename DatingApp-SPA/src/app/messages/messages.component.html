@@ -1,3 +1,12 @@
-<p>
-  messages works!
-</p>
+<form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+  <h3>Chat with {{user.knownAs}}:</h3>
+  <input type="text" formControlName="message" placeholder="mess"/>
+  <button type="submit" [disabled]="!messageForm.valid">Send</button>
+</form>
+<div>
+  <ul>
+      <li *ngFor="let msg of messages">
+          <b>{{ msg.user }}:</b> {{ msg.content }}
+      </li>
+  </ul>
+</div>
