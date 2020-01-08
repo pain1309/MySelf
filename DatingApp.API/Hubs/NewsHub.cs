@@ -13,7 +13,7 @@ namespace DatingApp.API.Hubs
             _newsStore = newsStore;
         }
  
-        public Task Send(NewsItem newsItem)
+        public void Send(NewsItem newsItem)
         {
             if(!_newsStore.GroupExists(newsItem.NewsGroup))
             {

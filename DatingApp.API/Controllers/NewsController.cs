@@ -21,7 +21,7 @@ namespace DatingApp.API.Controllers
         [HttpGet]
         public IActionResult GetAllGroups()
         {
-            return Ok();
+            return Ok(_newsStore.GetAllGroups());
         }
  
         [HttpPost]
