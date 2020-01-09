@@ -21,7 +21,7 @@ namespace DatingApp.API.Hubs
             }
  
             _newsStore.CreateNewItem(newsItem);
-            return Clients.Group(newsItem.NewsGroup).SendAsync("Send", newsItem);
+            // return Clients.Group(newsItem.NewsGroup).SendAsync("Send", newsItem);
         }
  
         public async Task JoinGroup(string groupName)

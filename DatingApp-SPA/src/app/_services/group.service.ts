@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import * as signalR from '@aspnet/signalr';
 import { environment } from 'src/environments/environment';
 import { NewsItem } from '../_models/NewsItem';
+import { GroupUser } from '../_models/GroupUser';
 
 @Injectable({
     providedIn: 'root'
@@ -40,6 +41,11 @@ export class GroupService {
         console.log(this.messGroup);
         this.connection.invoke('Send', this.messGroup)
             .catch(err => console.log(err));
+    }
+
+    joinUserToGroup(group): Observable<GroupUser> 
+    {
+        return this.http.post<GroupUser>(this.baseUrl + 'Group', group);
     }
 
     getGroups(): Observable<Group[]> {

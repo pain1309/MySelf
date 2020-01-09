@@ -1,3 +1,4 @@
+import { GroupUser } from './../_models/GroupUser';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from '../_services/auth.service';
@@ -16,7 +17,10 @@ export class GroupComponent implements OnInit {
         mess: ['', Validators.required],
         group: ['', Validators.required]
     });
-    constructor(private fb: FormBuilder,
+    formJoinGroup = this.fbg.group({
+        group: ['', Validators.required]
+    });
+    constructor(private fb: FormBuilder, private fbg: FormBuilder,
         private authService: AuthService, 
         private alertify: AlertifyService, 
         private groupService: GroupService) {}
@@ -31,6 +35,15 @@ export class GroupComponent implements OnInit {
 
     onSubmit() {
         this.groupService.sendMess(this.mesForm.getRawValue().mess, this.mesForm.getRawValue().group);
+    }
+    onSubmitJoinGroup() {
+        let groupUser: GroupUser = {
+            GroupName: this.formJoinGroup.getRawValue().group,
+            UserName: this.authService.decodedToken.unique_name
+        }
+        this.groupService.joinUserToGroup(groupUser).subscribe(res => {
+            console.log(res);
+        });
     }
 
 }

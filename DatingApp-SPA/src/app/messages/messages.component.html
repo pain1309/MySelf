@@ -1,9 +1,16 @@
 <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
-  <h3>Chat with {{user.knownAs}}:</h3>
+  <h3>Chat with {{user?.knownAs}}:</h3>
   <input type="text" formControlName="message" placeholder="mess"/>
   <button type="submit" [disabled]="!messageForm.valid">Send</button>
 </form>
 <div>
+  <div *ngIf="conversations.length > 0">
+    <ul *ngFor="let conversation of conversations">
+      <li>
+        - ({{conversation.timeChat}}) <b>{{ conversation.userName }}:</b> {{ conversation.mess }}
+      </li>
+    </ul>
+  </div>
   <ul>
       <li *ngFor="let msg of messages">
           <b>{{ msg.user }}:</b> {{ msg.content }}

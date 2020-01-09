@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { MessageService } from '../_services/Message.service';
 import { User } from '../_models/user';
 import { AuthService } from '../_services/auth.service';
+import { Conversation } from '../_models/Conversation';
 
 @Component({
     selector: 'app-messages',
@@ -19,6 +20,7 @@ export class MessagesComponent implements OnInit {
     messageForm = this.fb.group({
         message: ['', Validators.required]
     });
+    conversations: Conversation[] = []; 
     notificationSubscription: Subscription;
 
     constructor(
@@ -38,9 +40,13 @@ export class MessagesComponent implements OnInit {
         this.route.data.subscribe(data => {
             this.user = data['user'];
         });
+        
+        this.notification.loadMess(this.user.knownAs).subscribe(res => {
+            this.conversations = res;
+        });
     }
 
     onSubmit() {
-        this.notification.send(this.authService.decodedToken.unique_name, this.messageForm.getRawValue().message);
+        this.notification.send(this.authService.decodedToken.unique_name, this.user.knownAs, this.messageForm.getRawValue().message);
     }
 }

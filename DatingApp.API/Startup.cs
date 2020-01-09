@@ -48,6 +48,8 @@ namespace DatingApp.API
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
+            services.AddScoped<IConversationRepository, ConversationRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
             // services.AddHostedService<DashboardHostedService>();
             // them authentication middleware
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

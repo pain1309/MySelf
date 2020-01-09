@@ -12,5 +12,7 @@ namespace DatingApp.API.Data
         public DbSet<Photo> Photos { get; set; }
         public DbSet<NewsItemEntity> NewsItemEntities { get; set; }
         public DbSet<NewsGroup> NewsGroups { get; set; }
+        public DbSet<GroupUser> GroupUsers { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
     }
 }
