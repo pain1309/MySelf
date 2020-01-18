@@ -18,6 +18,9 @@ namespace DatingApp.API.Helpers
             CreateMap<Conversation, ConversationDto>()
                 .ForMember(dest => dest.TimeChat, opt => opt.MapFrom(src => src.TimeChat.ToString("dd-MM-yyyy")));
             CreateMap<Photo, PhotoForDetailedDto>();
+            CreateMap<UserForUpdatedDto, User>();
+            CreateMap<Photo, PhotoForReturnDto>();
+            CreateMap<PhotoForCreationDto, Photo>();
         }
     }
 }

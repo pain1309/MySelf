@@ -45,6 +45,7 @@ namespace DatingApp.API
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             services.AddCors();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
@@ -94,7 +95,7 @@ namespace DatingApp.API
             }
 
             // app.UseHttpsRedirection();
-            app.UseCors(x => x.WithOrigins("http://localhost:4200").WithMethods("GET", "POST").AllowAnyHeader().AllowCredentials());
+            app.UseCors(x => x.WithOrigins("http://localhost:4200").WithMethods("GET", "POST", "PUT", "DELETE").AllowAnyHeader().AllowCredentials());
 
             app.UseRouting();
 
