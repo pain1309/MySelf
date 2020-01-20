@@ -7,6 +7,7 @@ using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Dtos;
 using DatingApp.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +16,7 @@ namespace DatingApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
@@ -39,7 +41,7 @@ namespace DatingApp.API.Controllers
 
             var userToCreate = new User
             {
-                Username = userForRegisterDto.Username
+                UserName = userForRegisterDto.Username
             };
 
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
@@ -51,7 +53,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
         {
             // validate request
-            var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
+            var userFromRepo = await _repo.Login(userForLoginDto.Username, userForLoginDto.Password);
 
             if (userFromRepo == null)
                 return Unauthorized();
@@ -59,7 +61,7 @@ namespace DatingApp.API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Username)
+                new Claim(ClaimTypes.Name, userFromRepo.UserName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));

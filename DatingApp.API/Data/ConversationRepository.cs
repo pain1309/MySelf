@@ -19,7 +19,7 @@ namespace DatingApp.API.Data
             Conversation messChat = new Conversation();
             messChat.UserName = user;
             messChat.UserName_Counter = user_counter;
-            messChat.TimeChat = DateTime.Now;
+            messChat.TimeChat = DateTime.Now.ToString("dd-MM-yyyy");
             messChat.Mess = mess;
             await _context.Conversations.AddAsync(messChat);
             await _context.SaveChangesAsync();
