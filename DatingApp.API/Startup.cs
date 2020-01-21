@@ -41,29 +41,26 @@ namespace DatingApp.API
 
         public IConfiguration Configuration { get; }
 
-        // public void ConfigureDevelopmentServices(IServiceCollection services)
-        // {
-        //     services.AddDbContext<DataContext>(
-        //         // x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")), 
-        //         // ServiceLifetime.Singleton);
-        //         x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(
+                x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")), 
+                ServiceLifetime.Singleton);
 
-        //     ConfigureServices(services);
-        // }
+            ConfigureServices(services);
+        }
 
-        // public void ConfigureProductionServices(IServiceCollection services)
-        // {
-        //     services.AddDbContext<DataContext>(
-        //         x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(
+                x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-        //     ConfigureServices(services);
-        // }
+            ConfigureServices(services);
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(
-                x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Singleton);
                 
             // tells Identity we want to use User to represent the user
             IdentityBuilder builder = services.AddIdentityCore<User>(opt => 

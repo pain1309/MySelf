@@ -7,7 +7,6 @@ namespace DatingApp.API
     {
         public static IServiceCollection AddBusiness(this IServiceCollection services)
         {
-            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<IConversationRepository, ConversationRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();

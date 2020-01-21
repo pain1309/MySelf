@@ -20,45 +20,42 @@ namespace DatingApp.API.Controllers
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(IConfiguration config, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _mapper = mapper;
             _config = config;
-            _repo = repo;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto)
         {
-            // validate request
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
-            userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
+            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
 
-            if (await _repo.UserExists(userForRegisterDto.Username))
-                return BadRequest("Username already exists");
+            var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
 
-            var userToCreate = new User
+            if (result.Succeeded)
             {
-                UserName = userForRegisterDto.Username
-            };
-
-            var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
-
-            return StatusCode(201);
+                return CreatedAtRoute("GetUser", new
+                {
+                    controller = "Users",
+                    id = userToCreate.Id
+                }, userToReturn);
+            }
+            return BadRequest(result.Errors);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
         {
             // validate request
-            var userdemo = await _repo.Login(userForLoginDto.Username, userForLoginDto.Password);
             var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
