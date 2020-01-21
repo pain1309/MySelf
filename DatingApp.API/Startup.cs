@@ -53,16 +53,14 @@ namespace DatingApp.API
         public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(
-                x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), 
-                ServiceLifetime.Singleton);
+                x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             ConfigureServices(services);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
             IdentityBuilder builder = services.AddIdentityCore<User>(opt => 
             {
                 opt.Password.RequireDigit = false;
@@ -106,7 +104,7 @@ namespace DatingApp.API
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
            
             // add bussiness service extension
-            // services.AddBusiness();
+            services.AddBusiness();
 
             // services.AddHostedService<DashboardHostedService>();
             
@@ -115,11 +113,11 @@ namespace DatingApp.API
 
             
             // add autofac
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule<AutofacModule>();
-            containerBuilder.Populate(services);
-            var container = containerBuilder.Build();
-            return new AutofacServiceProvider(container);
+            // var containerBuilder = new ContainerBuilder();
+            // containerBuilder.RegisterModule<AutofacModule>();
+            // containerBuilder.Populate(services);
+            // var container = containerBuilder.Build();
+            // return new AutofacServiceProvider(container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
