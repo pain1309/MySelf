@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Data
 {
+    // By inheriting from IdentityDbContext class we guarantee that Entity Framework (EF) Core 
+    // will create all the necessary User-related tables in the database.
     public class DataContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, 
         UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
