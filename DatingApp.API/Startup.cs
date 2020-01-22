@@ -41,8 +41,12 @@ namespace DatingApp.API
 
         public IConfiguration Configuration { get; }
 
+        // The ConfigureServices method is called by the runtime 
+        // and it gives the developer a chance to register services inside the Dependency Injection system.
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
+            // introduce the DataContext to the EF Core engine by registering the context class inside
+            // the Asp.Net Core Dependency Injection internal system
             services.AddDbContext<DataContext>(
                 x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")), 
                 ServiceLifetime.Singleton);
@@ -90,7 +94,8 @@ namespace DatingApp.API
                     };
                 });
             
-
+            // AddControllers: This can be used when the app is purely 
+            // a web API and doesn't need any server side views or Razor pages
             services.AddControllers(options => 
             {
                 var policy = new AuthorizationPolicyBuilder()

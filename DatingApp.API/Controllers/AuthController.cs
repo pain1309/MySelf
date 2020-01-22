@@ -58,6 +58,7 @@ namespace DatingApp.API.Controllers
             // validate request
             var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
 
+            // return ClaimsPrincipal
             var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
 
             if (result.Succeeded)
