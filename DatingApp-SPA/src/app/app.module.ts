@@ -8,7 +8,6 @@ import {
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './_services/auth.service';
@@ -32,6 +31,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function tokenGetter() {
     return localStorage.getItem('token');
@@ -64,6 +64,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
         BrowserAnimationsModule,
         HttpClientModule,
         ReactiveFormsModule,
+        BsDatepickerModule.forRoot(),
         NgxGalleryModule,
         FormsModule,
         BsDropdownModule.forRoot(),

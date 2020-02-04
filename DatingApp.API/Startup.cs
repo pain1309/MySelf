@@ -129,6 +129,7 @@ namespace DatingApp.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // meaning the method is used to specify how the app responds to HTTP requests
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -153,9 +154,10 @@ namespace DatingApp.API
                     });
                 });
             }
-
+            
             // app.UseHttpsRedirection();
-            app.UseCors(x => x.WithOrigins("http://localhost:4200").WithMethods("GET", "POST", "PUT", "DELETE").AllowAnyHeader().AllowCredentials());
+            // app.UseCors(x => x.WithOrigins("http://localhost:4200").WithMethods("GET", "POST", "PUT", "DELETE").AllowAnyHeader().AllowCredentials());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseRouting();
 
