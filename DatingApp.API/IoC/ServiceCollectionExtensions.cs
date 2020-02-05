@@ -1,4 +1,5 @@
 using DatingApp.API.Data;
+using DatingApp.API.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DatingApp.API
@@ -10,8 +11,8 @@ namespace DatingApp.API
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<IConversationRepository, ConversationRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
-
+            services.AddScoped<LogUserActivity>();
             return services;
-        } 
+        }
     }
 }

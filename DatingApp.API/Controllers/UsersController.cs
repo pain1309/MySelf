@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Dtos;
+using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Controllers
 {
+    // ControllerBase: without view support
+    // Controller: have view support
+    // ApiController: it enables several API-specific features like attribute routing and automatic HTTP 400 responses if something is wrong with the model
+    // [ServiceFilter(typeof(LogUserActivity))]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -23,7 +29,7 @@ namespace DatingApp.API.Controllers
             _mapper = mapper;
             _repo = repo;
         }
-
+        // IActionResult: enables us to send specific HTTP status codes back to the client together with the actual data that was requested
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
