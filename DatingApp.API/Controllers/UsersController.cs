@@ -15,7 +15,7 @@ namespace DatingApp.API.Controllers
     // ControllerBase: without view support
     // Controller: have view support
     // ApiController: it enables several API-specific features like attribute routing and automatic HTTP 400 responses if something is wrong with the model
-    // [ServiceFilter(typeof(LogUserActivity))]
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -31,11 +31,24 @@ namespace DatingApp.API.Controllers
         }
         // IActionResult: enables us to send specific HTTP status codes back to the client together with the actual data that was requested
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
-            var users = await _repo.GetUsers();
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var userFromRepo = await _repo.GetUser(currentUserId);
+
+            userParams.UserId = currentUserId;
+
+            if (string.IsNullOrEmpty(userParams.Gender)) {
+                userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
+            }
+
+            var users = await _repo.GetUsers(userParams);
 
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
             return Ok(usersToReturn);
         }
 
