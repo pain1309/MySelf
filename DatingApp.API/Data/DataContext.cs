@@ -27,6 +27,22 @@ namespace DatingApp.API.Data
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
+            // builder.Entity<User>().Property(b => b.DateOfBirth).HasDefaultValueSql("getdate()");
+            // builder.Entity<User>().Property(b => b.Created).HasDefaultValueSql("getdate()");
+            // builder.Entity<User>().Property(b => b.LastActive).HasDefaultValueSql("getdate()");
+
+            builder.Entity<Like>()
+                .HasKey(k => new {k.LikerId, k.LikeeId});
+            builder.Entity<Like>()
+                .HasOne(u => u.Likee)
+                .WithMany(u => u.Likers)
+                .HasForeignKey(u => u.LikeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Like>()
+                .HasOne(u => u.Liker)
+                .WithMany(u => u.Likees)
+                .HasForeignKey(u => u.LikerId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Value> Values { get; set; }
@@ -35,5 +51,6 @@ namespace DatingApp.API.Data
         public DbSet<NewsGroup> NewsGroups { get; set; }
         public DbSet<GroupUser> GroupUsers { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<Like> Likes { get; set; }
     }
 }
