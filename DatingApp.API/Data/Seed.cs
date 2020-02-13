@@ -49,7 +49,7 @@ namespace DatingApp.API.Data
                 if (result.Succeeded)
                 {
                     var admin = userManager.FindByNameAsync("Admin").Result;
-                    await userManager.AddToRolesAsync(admin, new [] {"Admin", "Moderator"});
+                    userManager.AddToRolesAsync(admin, new [] {"Admin", "Moderator"}).Wait();
                 }
             }
         }
